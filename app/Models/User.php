@@ -17,7 +17,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'id_role',
+        'email_verified_at',
+        'username',
         'email',
         'password',
     ];
@@ -43,5 +45,32 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function mitra() {
+        return $this->hasOne(MitraIss::class, 'user_id', 'id');
+    }
+
+    public function superAdmin() {
+        return $this->hasOne(SuperAdmin::class, 'user_id', 'id');
+    }
+
+    public function role() {
+        return $this->belongsTo(Role::class, 'id_role', 'id_role');
+    }
+
+    public function userRole() {
+        return $this->role->nama;
+    }
+
+    public function groupMenus() {
+        $menus = [];
+        if($this->role->menus->count() <= 0) return $menus;
+        
+        foreach($this->role->menus as $menu) {
+            $menus[$menu->module->group->nama][$menu->module->nama][] = $menu;
+        }
+
+        return $menus;
     }
 }

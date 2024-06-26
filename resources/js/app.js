@@ -6,6 +6,7 @@
 
 import './bootstrap';
 import { createApp } from 'vue';
+import router from './routers'
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -15,9 +16,9 @@ import { createApp } from 'vue';
 
 const app = createApp({});
 
-import ExampleComponent from './components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
-
+import Home from './pages/Home.vue';
+app.component('home', Home)
+app.use(router)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
